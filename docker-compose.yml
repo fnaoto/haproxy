@@ -1,0 +1,27 @@
+version: '3.6'
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - './haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg'
+    depends_on:
+      - nginx
+      - db
+    ports:
+      - 3000:3000
+      - 8080:8080
+      - 13306:13306
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 80:80
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASAE=db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pass
+    ports:
+      - 3306:3306
